@@ -20,21 +20,19 @@ clearButton.addEventListener('click', clearCalculation);
 const convertButton = document.querySelector('.convert');
 convertButton.addEventListener('click', convertToNegative)
 
+//Enable decimal point functionality
 const decimalButton = document.querySelector('.decimal');
 decimalButton.addEventListener('click', addDecimalPoint)
 
-
-limitDisplayLength();
-//TODO: When a value hits 0 on a series of calculations the calculator gets confused, try to fix this
-//To recreate the bug type in 4, turn it to negative, then add 2 to it until it hits 0, and the next equal will be skewed
-//Solved: problem stemmed from ans being 0, thus evaluating to false on one condition. Lesson learned, if checking for non-values always check for undefined.
-
-//Temporary to call all the functions
+//Add event listeners to the operator and equal button
 storeOperator();
 performOperation();
 
+//Takes values and does calculations based on the operator
 function operate(operator, number1, number2) {
+
     switch (true) {
+
         case operator === "+":
             return number1 + number2;
         
@@ -59,8 +57,10 @@ function operate(operator, number1, number2) {
             return "Bruh"
 
     }
+
 }
 
+//Number buttons clicks will add them to the display
 function populateDisplay(nodeList) {
 
     //When a number button is clicked add it to the display value.
@@ -70,9 +70,12 @@ function populateDisplay(nodeList) {
 
         
     });
+
 }
 
+//Handles clicks on operators * / + - %
 function storeOperator() {
+
     //Get the operator buttons.
     const operatorButtons = document.querySelectorAll('.operators');
 
@@ -113,9 +116,12 @@ function storeOperator() {
             upperDisplay.textContent = `${calculation['number1']} ${calculation['operator']}`;
             lowerDisplay.textContent = "";
         })
+
     })
+
 }
 
+//Handles storing of values inside the calculation object when equals is pressed
 function performOperation() {
 
     //Get the equal button
@@ -190,17 +196,20 @@ function performOperation() {
         }
 
     });
+
 }
 
 //Empty the object and clear the display in case of AC button press
 function clearCalculation() {
+
     calculation = {};
     lowerDisplay.textContent = "";
     upperDisplay.textContent = "";
     consecutive = 0;
+
 }
 
-//Takes the first and second number used for calculation, performs it, then plugs the value to the display and updates value of ans.
+//Updates the displays and records result of operations
 function calculateResults(number1, number2) {
 
                 //Update both the displays with calculations and results respectively
@@ -230,7 +239,9 @@ function updateAns(ansLength, displayLength) {
 
 }
 
+//Allows user to switch positive values to negative and vice-versa
 function convertToNegative () {
+
     if (lowerDisplay.textContent === "") {
         return;
     }
@@ -242,7 +253,10 @@ function convertToNegative () {
 
 }
 
+//Allows user to add a decimal point to numbers
 function addDecimalPoint () {
+
+    //Indexof returns negative 1 if no match is found, otherwise the index itself
     if(lowerDisplay.textContent.indexOf('.') !== -1) {
         return;
     };
@@ -253,6 +267,7 @@ function addDecimalPoint () {
     else {
         lowerDisplay.textContent = lowerDisplay.textContent + ".";
     }
+
 }
 
 //Makes it so the user cannot type more than 15 numbers into the display
@@ -261,6 +276,7 @@ function limitDisplayLength () {
 if(lowerDisplay.textContent.length > 15) {
     lowerDisplay.textContent = lowerDisplay.textContent.slice(0,15)
 }
+
 }
 
 //Check what the operations results to, if number is too big for the display, shrink it.
@@ -270,13 +286,16 @@ function shrinkResult () {
     const mediaQuery = window.matchMedia( "(max-width: 370px)" );
 
     if (mediaQuery) {
+        
         if (lowerDisplay.textContent.length > 15) {
 
             lowerDisplay.setAttribute('style', 'font-size: 23px;')
         }
+
         else {
             lowerDisplay.style.fontSize = '25px';
         }
+
     }
     //Otherwise it just behaves regularly
     else {
@@ -288,5 +307,7 @@ function shrinkResult () {
         else {
             lowerDisplay.style.fontSize = '40px';
         }
+
     }
+
 }
