@@ -85,14 +85,72 @@ button:active {
 }
 
 .operations {
-  margin: auto 0px 0px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   height: 50px;
   text-align: right;
   font-size: 24px;
+  color:#60636d
 }
 
 .calculation {
   height: 50px;
   text-align: right;
   font-size: 40px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+@media (max-width: 765px) {
+    .backdrop {
+      border-radius: 0;
+      height: 300px;
+    }
+}
+
+@media (max-width: 370px) {
+  #calcshell {
+    height: 450px;
+    width: 300px;
+  }
+
+  #display {
+    height: 85px;
+  }
+
+  button {
+    width: 50px; 
+    height: 50px; 
+    font-size: 20px;
+  }
+
+  #buttons {
+    gap: 7px;
+  }
+
+  .zero {
+    width: 125px;
+  }
+
+.operators,
+.equals,
+.clear,
+.convert{
+  font-size: 25px;
+}
+
+.operations,
+.calculation {
+height: 42,5px
+}
+.operations {
+  font-size: 20px;
+}
+
+.calculation {
+  font-size: 25px;
+  align-items: flex-start;
+}
 }
