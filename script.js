@@ -47,10 +47,10 @@ function operate(operator, number1, number2) {
             alert('Just.. just... okay?!');
             return "Bruh"
             }
-            return number1 / number2
+            return number1 / number2;
 
         case operator === "%":
-            return number1 % number2
+            return number1 % number2;
 
         default:
             setTimeout(clearButton.click(), 2000)
@@ -98,6 +98,10 @@ function storeOperator() {
                 let textContentLength = lowerDisplay.textContent.length;
 
                 updateAns(ansLength, textContentLength);
+
+                upperDisplay.textContent = `${calculation['ans']} ${calculation['operator']}`;
+                lowerDisplay.textContent = "";
+
                 return;
     
             }
@@ -229,9 +233,10 @@ function updateAns(ansLength, displayLength) {
                     calculation['ans'] = ansLength < displayLength ? Number( "-" + calculation['ans'] + lowerDisplay.textContent.slice(ansLength + 1)) : calculation['ans'];
                     return;
                 }
-
+                else {
                 //I am slicing through because just having ans be the textcontent could result in it being changed to nothing upon multiple consecutive operator presses
                 calculation['ans'] = ansLength < displayLength ? Number(calculation['ans'] + lowerDisplay.textContent.slice(ansLength)) : calculation['ans'];
+                }
 
                 //Show current operation on display
                 upperDisplay.textContent = `${calculation['ans']} ${calculation['operator']}`;
@@ -247,8 +252,12 @@ function convertToNegative () {
     }
     
     let number = Number(lowerDisplay.textContent);
-    let convertedNumber = number > 0 ? number - (number * 2) :  number + (number * 2);
+    let convertedNumber = -number
     lowerDisplay.textContent = convertedNumber.toString();
+
+    if (calculation['ans']){
+        calculation['ans'] = lowerDisplay.textContent;
+    }
 
 
 }
@@ -286,7 +295,7 @@ function shrinkResult () {
     const mediaQuery = window.matchMedia( "(max-width: 370px)" );
 
     if (mediaQuery) {
-        
+
         if (lowerDisplay.textContent.length > 15) {
 
             lowerDisplay.setAttribute('style', 'font-size: 23px;')
