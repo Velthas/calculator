@@ -23,6 +23,7 @@ convertButton.addEventListener('click', convertToNegative)
 const decimalButton = document.querySelector('.decimal');
 decimalButton.addEventListener('click', addDecimalPoint)
 
+
 limitDisplayLength();
 //TODO: When a value hits 0 on a series of calculations the calculator gets confused, try to fix this
 //To recreate the bug type in 4, turn it to negative, then add 2 to it until it hits 0, and the next equal will be skewed
@@ -45,6 +46,7 @@ function operate(operator, number1, number2) {
 
         case operator === "/":
             if (number1 === 0 || number2 === 0) {
+            alert('Just.. just... okay?!');
             return "Bruh"
             }
             return number1 / number2
@@ -53,6 +55,7 @@ function operate(operator, number1, number2) {
             return number1 % number2
 
         default:
+            setTimeout(clearButton.click(), 2000)
             return "Bruh"
 
     }
@@ -62,7 +65,9 @@ function populateDisplay(nodeList) {
 
     //When a number button is clicked add it to the display value.
     nodeList.forEach(button => {
-        button.addEventListener('click', () => { lowerDisplay.textContent = lowerDisplay.textContent + button.textContent })
+        button.addEventListener('click', () => { lowerDisplay.textContent = lowerDisplay.textContent + button.textContent
+            limitDisplayLength(); })
+
         
     });
 }
@@ -143,6 +148,8 @@ function performOperation() {
                 //Do the calculations and plug results to the display
                 calculateResults(calculation.ans, calculation.number1);
 
+                shrinkResult();
+
             }
 
             //Otherwise perform the calculation with the new number
@@ -156,6 +163,8 @@ function performOperation() {
 
                 //Store the second number in the first slot for eventual consecutive evaluation.
                 calculation['number1'] = calculation['number2'];
+
+                shrinkResult();
 
                 //Poise the system to expect and handle multiple equal presses
                 consecutive = 1;
@@ -177,6 +186,7 @@ function performOperation() {
             calculation['number1'] = calculation['number2'];
             consecutive = 1;
 
+            shrinkResult();
         }
 
     });
@@ -245,10 +255,38 @@ function addDecimalPoint () {
     }
 }
 
-//TODO: Fix display length
+//Makes it so the user cannot type more than 15 numbers into the display
 function limitDisplayLength () {
 
 if(lowerDisplay.textContent.length > 15) {
     lowerDisplay.textContent = lowerDisplay.textContent.slice(0,15)
 }
+}
+
+//Check what the operations results to, if number is too big for the display, shrink it.
+function shrinkResult () {
+
+    //This evaluates to true if the media-query is enabled
+    const mediaQuery = window.matchMedia( "(max-width: 370px)" );
+
+    if (mediaQuery) {
+        if (lowerDisplay.textContent.length > 15) {
+
+            lowerDisplay.setAttribute('style', 'font-size: 23px;')
+        }
+        else {
+            lowerDisplay.style.fontSize = '25px';
+        }
+    }
+    //Otherwise it just behaves regularly
+    else {
+
+        if (lowerDisplay.textContent.length > 15) {
+
+            lowerDisplay.setAttribute('style', 'font-size: 25px;')
+        }
+        else {
+            lowerDisplay.style.fontSize = '40px';
+        }
+    }
 }
