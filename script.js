@@ -138,9 +138,6 @@ function performOperation() {
         if (calculation['number1'] === undefined || lowerDisplay.textContent === "") {
             return;
         }
-
-        //On equals click, register what's inside the text-content as second number
-        //calculation['number2'] = Number(lowerDisplay.textContent);
         
         //If the first operation was a success, perform calculations based on the result
         if(!(calculation.ans === undefined)) {
